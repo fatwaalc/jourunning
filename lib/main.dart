@@ -1,23 +1,14 @@
 import 'package:flutter/material.dart';
-import 'screens/landing_page.dart';
-import 'utils/app_colors.dart';
+import 'package:provider/provider.dart';
+
+import 'app.dart';
+import 'providers/journal_provider.dart';
 
 void main() {
-  runApp(const JourunningApp());
-}
-
-class JourunningApp extends StatelessWidget {
-  const JourunningApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Jourunning',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: AppColors.background,
-      ),
-      home: const LandingPage(),
-    );
-  }
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => JournalProvider(),
+      child: const JourunningApp(),
+    ),
+  );
 }
