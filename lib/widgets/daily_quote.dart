@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../core/constants/app_colors.dart';
 import '../core/theme/app_text_styles.dart';
@@ -43,6 +44,19 @@ class _DailyQuoteState extends State<DailyQuote> {
               '— ${quote.author}',
               textAlign: TextAlign.center,
               style: AppTextStyles.brush(20, color: AppColors.grey),
+            ),
+            const SizedBox(height: 6),
+            GestureDetector(
+              onTap: () => launchUrl(
+                Uri.parse('https://zenquotes.io/'),
+                mode: LaunchMode.externalApplication,
+              ),
+              child: Text(
+                'Inspirational quotes provided by ZenQuotes API',
+                textAlign: TextAlign.center,
+                style: AppTextStyles.brush(14, color: AppColors.grey)
+                    .copyWith(decoration: TextDecoration.underline),
+              ),
             ),
           ],
         );

@@ -42,6 +42,7 @@ dependencies:
   lucide_icons_flutter: ^4.0.3
   sqflite: ^2.4.6
   path: ^1.9.1
+  url_launcher: ^6.3.3
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,7 @@ flutter:
 
   assets:
     - asset/icon/logojourunning.png
+    - asset/font/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
