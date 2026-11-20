@@ -18,8 +18,6 @@ class QuoteService {
     author: 'Jourunning',
   );
 
-  /// Quote berganti otomatis tiap hari: hasil API disimpan per tanggal,
-  /// jadi seharian penuh quote yang tampil sama.
   Future<Quote> getDailyQuote() async {
     final prefs = await SharedPreferences.getInstance();
     final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -50,7 +48,7 @@ class QuoteService {
         }
       }
     } catch (_) {
-      // abaikan, pakai fallback
+
     }
     return _fallback;
   }

@@ -1,14 +1,19 @@
-import 'dart:collection';
-
 import 'package:flutter/foundation.dart';
 
 import '../models/journal_entry.dart';
+import '../services/database_helper.dart';
 
 class JournalProvider extends ChangeNotifier {
-  final List<JournalEntry> _entries = [];
+  final _db = DatabaseHelper.instance;
+  List<JournalEntry> _entries = [];
 
-  UnmodifiableListView<JournalEntry> get entries =>
-      UnmodifiableListView(_entries);
+  List<JournalEntry> get entries => List.unmodifiable(_entries);
+
+  /// Baca ulang semua data dari database lalu beri tahu tampilan.
+  Future<void> load() async {
+    _entries = await _db.getAll();
+    notifyListeners();
+  }
 
   JournalEntry? getById(String id) {
     for (final e in _entries) {
@@ -17,19 +22,13 @@ class JournalProvider extends ChangeNotifier {
     return null;
   }
 
-  /// Tambah baru (paling atas), atau timpa jika id sudah ada (mode edit).
-  void save(JournalEntry entry) {
-    final index = _entries.indexWhere((e) => e.id == entry.id);
-    if (index >= 0) {
-      _entries[index] = entry;
-    } else {
-      _entries.insert(0, entry); // terbaru di atas
-    }
-    notifyListeners();
+  Future<void> save(JournalEntry entry) async {
+    await _db.upsert(entry);
+    await load();
   }
 
-  void delete(String id) {
-    _entries.removeWhere((e) => e.id == id);
-    notifyListeners();
+  Future<void> delete(String id) async {
+    await _db.delete(id);
+    await load();
   }
 }

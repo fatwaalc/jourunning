@@ -55,6 +55,41 @@ class JournalEntry {
       notes: notes ?? this.notes,
     );
   }
+
+  /// Objek -> baris database.
+  Map<String, Object?> toMap() => {
+    'id': id,
+    'date_time': dateTime.toIso8601String(),
+    'title': title,
+    'distance': distance,
+    'duration': duration,
+    'pace': pace,
+    'location': location,
+    'mood': mood.name,
+    'gratitude': gratitude,
+    'improvement': improvement,
+    'notes': notes,
+  };
+
+  /// Baris database -> objek.
+  factory JournalEntry.fromMap(Map<String, Object?> map) {
+    return JournalEntry(
+      id: map['id'] as String,
+      dateTime: DateTime.parse(map['date_time'] as String),
+      title: map['title'] as String,
+      distance: map['distance'] as String,
+      duration: map['duration'] as String,
+      pace: map['pace'] as String,
+      location: map['location'] as String,
+      mood: Mood.values.firstWhere(
+            (m) => m.name == map['mood'],
+        orElse: () => Mood.happy,
+      ),
+      gratitude: map['gratitude'] as String,
+      improvement: map['improvement'] as String,
+      notes: map['notes'] as String,
+    );
+  }
 }
 
 /// Data yang dikirim dari Form 1 ke Form 2.
